@@ -1,0 +1,605 @@
+openapi: "3.0.0"
+info:
+  version: "1.0.0"
+  title: "Video Game Trade API"
+servers:
+  - url: "http://localhost:8080"
+tags:
+  - name: "users"
+    description: "Operations for user management"
+  - name: "games"
+    description: "Operations for game management"
+  - name: "offers"
+    description: "Operations for trading"
+paths:
+  /users:
+    post:
+      tags:
+        - "users"
+      summary: "Register a new user"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "201":
+          description: "User created successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /users/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - "users"
+      summary: "Get a specific user"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+          description: "Operation completed successfully"
+        "404":
+          description: "User not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      tags:
+        - "users"
+      summary: "Update user information"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "200":
+          description: "User updated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: "User not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      tags:
+        - "users"
+      summary: "Delete user by ID"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "200":
+          description: "User deleted successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+        "400":
+          description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: "User not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /users/{id}/change-password:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    post:
+      tags:
+        - "users"
+      summary: "Change user password"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                newPassword:
+                  type: string
+      responses:
+        "200":
+          description: "Password changed successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+        "400":
+          description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: "User not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /users/{id}/reset-password:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    post:
+      tags:
+        - "users"
+      summary: "Reset user password"
+      responses:
+        "200":
+          description: "Password reset successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+        "400":
+          description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: "User not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /games:
+    post:
+      tags:
+        - "games"
+      summary: "Create a new video game"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Game"
+      responses:
+        "201":
+          description: "Video game created successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Game"
+        "400":
+          description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /games/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - "games"
+      summary: "Get a specific video game"
+      responses:
+        "200":
+          description: "Video game retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Game"
+        "400":
+          description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: "Game not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      tags:
+        - "games"
+      summary: "Update a video game"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Game"
+      responses:
+        "200":
+          description: "Video game updated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Game"
+        "400":
+          description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: "Game not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      tags:
+        - "games"
+      summary: "Delete a video game"
+      responses:
+        "200":
+          description: "Game deleted successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+        "404":
+          description: "Game not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /offers:
+    post:
+      tags:
+        - "offers"
+      summary: "Create a new trade offer"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Offer"
+      responses:
+        "201":
+          description: "Trade offer created successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Offer"
+        "400":
+          description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /offers/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - "offers"
+      summary: "Get a specific trade offer"
+      responses:
+        "200":
+          description: "Trade offer retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Offer"
+        "404":
+          description: "Trade offer not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      tags:
+        - "offers"
+      summary: "Update an offer"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Offer"
+      responses:
+        "200":
+          description: "Video game updated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Offer"
+        "400":
+          description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: "Offer not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      tags:
+        - "offers"
+      summary: "Delete an offer"
+      responses:
+        "200":
+          description: "Offer deleted successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+        "404":
+          description: "Offer not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /offers/{id}/incoming:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - "offers"
+      summary: "Get user's incoming offers"
+      responses:
+        "200":
+          description: "Trade offer retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Offer"
+        "404":
+          description: "Trade offer not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /offers/{id}/outgoing:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - "offers"
+      summary: "Get user's outgoing offers"
+      responses:
+        "200":
+          description: "Trade offer retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Offer"
+        "404":
+          description: "Trade offer not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /offers/{id}/accept:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    post:
+      tags:
+        - "offers"
+      summary: "Accepts the trade offer with the specified ID"
+      responses:
+        "200":
+          description: "trade offer successfully accepted"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+        "404":
+          description: "trade offer not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /offers/{id}/reject:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    post:
+      tags:
+        - "offers"
+      summary: "Rejects the trade offer with the specified ID"
+      responses:
+        "200":
+          description: "trade offer successfully rejected"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+        "404":
+          description: "trade offer not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          x-go-type: primitive.ObjectID
+          x-go-type-import:
+            path: go.mongodb.org/mongo-driver/bson/primitive
+          x-oapi-codegen-extra-tags:
+            bson: _id,omitempty
+        name:
+          type: string
+          x-oapi-codegen-extra-tags:
+            bson: name,omitempty
+          example: "John Doe"
+        email:
+          type: string
+          x-oapi-codegen-extra-tags:
+            bson: email,omitempty
+          example: "johndoe@example.com"
+        address:
+          type: string
+          x-oapi-codegen-extra-tags:
+            bson: address,omitempty
+          example: "123 Main Street, Elpis, 12345"
+        password:
+          type: string
+          x-oapi-codegen-extra-tags:
+            bson: password,omitempty
+          example: "Password12345"
+    Game:
+      type: object
+      properties:
+        id:
+          type: string
+          x-go-type: primitive.ObjectID
+          x-go-type-import:
+            path: go.mongodb.org/mongo-driver/bson/primitive
+          x-oapi-codegen-extra-tags:
+            bson: _id,omitempty
+        name:
+          type: string
+          x-oapi-codegen-extra-tags:
+            bson: name,omitempty
+          example: "Signalis"
+        publisher:
+          type: string
+          x-oapi-codegen-extra-tags:
+            bson: publisher,omitempty
+          example: "Rose-engine"
+        condition:
+          type: string
+          x-oapi-codegen-extra-tags:
+            bson: condition,omitempty
+          enum:
+            - "mint"
+            - "good"
+            - "fair"
+            - "poor"
+          example: "mint"
+        ownerId:
+          type: string
+          x-oapi-codegen-extra-tags:
+            bson: ownerId,omitempty
+          x-go-type: primitive.ObjectID
+          x-go-type-import:
+            path: go.mongodb.org/mongo-driver/bson/primitive
+    Offer:
+      type: object
+      properties:
+        id:
+          type: string
+          x-go-type: primitive.ObjectID
+          x-go-type-import:
+            path: go.mongodb.org/mongo-driver/bson/primitive
+          x-oapi-codegen-extra-tags:
+            bson: _id,omitempty
+        offeror:
+          type: string
+          x-oapi-codegen-extra-tags:
+            bson: offeror,omitempty
+        offeree:
+          type: string
+          x-oapi-codegen-extra-tags:
+            bson: offeree,omitempty
+        gamesOffered:
+          type: array
+          x-oapi-codegen-extra-tags:
+            bson: gamesOffered,omitempty
+          items:
+            type: string
+            x-go-type: primitive.ObjectID
+            x-go-type-import:
+              path: go.mongodb.org/mongo-driver/bson/primitive
+        gamesRequested:
+          type: array
+          x-oapi-codegen-extra-tags:
+            bson: gamesRequested,omitempty
+          items:
+            type: string
+            x-go-type: primitive.ObjectID
+            x-go-type-import:
+              path: go.mongodb.org/mongo-driver/bson/primitive
+        timestamp:
+          type: string
+          format: date
+          x-go-type-skip-optional-pointer: true
+          x-oapi-codegen-extra-tags:
+            bson: timestamp,omitempty
+        status:
+          type: string
+          x-go-type-skip-optional-pointer: true
+          x-oapi-codegen-extra-tags:
+            bson: status,omitempty
+          enum:
+            - "pending"
+            - "accepted"
+            - "rejected"
+    Error:
+      type: object
+      properties:
+        error:
+          x-go-type-skip-optional-pointer: true
+          type: string
+          example: "api encountered an error"
+    Message:
+      type: object
+      properties:
+        Message:
+          x-go-type-skip-optional-pointer: true
+          type: string
+          example: "transaction successfully completed"
