@@ -66,4 +66,5 @@ func (a *GameApi) PostUsersIdChangePassword(c *gin.Context, id string) {
 
 func (a *GameApi) PostUsersIdResetPassword(c *gin.Context, id string) {
 	service.ChangeUserPassword(id)
+	c.JSON(http.StatusOK, model.Message{Message: "email sent"})
 }
