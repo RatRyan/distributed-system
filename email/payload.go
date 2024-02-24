@@ -1,11 +1,11 @@
 package main
 
 type userPayload struct {
-	Name  string `json:"name"`
-	Email string `json:"email"`
+	Name  string `json:"Name"`
+	Email string `json:"Email"`
 }
 
 type offerPaylood struct {
-	Offeror string `json:"offeror"`
-	Offeree string `json:"offeree"`
+	Offeror string `json:"Offeror"`
+	Offeree string `json:"Offeree"`
 }

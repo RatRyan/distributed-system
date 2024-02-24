@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"os"
 	"os/signal"
@@ -46,15 +47,20 @@ func main() {
 	// Listen on messages channel
 	go func() {
 		for msg := range messages {
+			fmt.Println("Message recieved")
+			fmt.Println(string(msg.Key))
+			fmt.Println(string(msg.Value))
 			switch msg.Topic {
 			case "user":
 				var user userPayload
-				json.Unmarshal(msg.Value, &user)
-				handleUser(string(msg.Key), user)
+				_ = json.Unmarshal(msg.Value, &user)
+				fmt.Println(user)
+				handleUser("test", user)
 			case "offer":
 				var offer offerPaylood
-				json.Unmarshal(msg.Value, &offer)
 				handleOffer(string(msg.Key), offer)
+			default:
+				fmt.Println("unknown topic")
 			}
 		}
 	}()
